@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Acerca de</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>App de Noticias</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Aplicación desarrollada en Ionic + Angular.</p>
+      <p>Consume datos de <b>NewsAPI</b> y banderas de <b>CountriesNow</b>.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list>
+    <ion-list-header>Algunas banderas</ion-list-header>
+    <ion-item *ngFor="let b of banderas | slice:0:10">
+      <ion-label>{{ b.name }}</ion-label>
+      <div slot="end" [innerHTML]="b.unicodeFlag"></div>
+    </ion-item>
+  </ion-list>
+</ion-content>

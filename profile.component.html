@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input formControlName="name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Apellido</ion-label>
+      <ion-input formControlName="lastName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input formControlName="email" type="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input formControlName="password" type="password" placeholder="Dejar en blanco si no cambia"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>País</ion-label>
+      <ion-select formControlName="country" placeholder="Selecciona tu país">
+        <ion-select-option *ngFor="let c of [{id:'Colombia', value:'🇨🇴 Colombia'}, {id:'Mexico', value:'🇲🇽 México'}]" [value]="c.id">
+          {{ c.value }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" class="ion-margin-top">
+      Guardar
+    </ion-button>
+  </form>
+</ion-content>

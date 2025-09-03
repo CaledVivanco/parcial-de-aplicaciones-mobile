@@ -18,6 +18,7 @@ export class HomePage implements OnInit {
   cargando: boolean = false;
   flags: any[] = [];
   currentUser: any = null;
+  defaultImage: string = 'assets/default-news.jpg'; // imagen por defecto
 
   constructor(
     private newsService: NewsService,
@@ -26,34 +27,25 @@ export class HomePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Revisar si hay usuario logueado al iniciar
     this.checkUser();
   }
-
 
   checkUser() {
     const user = localStorage.getItem('currentUser');
     this.currentUser = user ? JSON.parse(user) : null;
 
     if (this.currentUser) {
-      // Solo cargar noticias y banderas si hay usuario logueado
       this.loadNews();
       this.loadFlags();
     } else {
-      // Limpiar datos si no hay usuario
       this.noticias = [];
       this.flags = [];
     }
   }
 
-  // Funciones de navegación
-  goToLogin() {
-    this.router.navigate(['/login']);
-  }
-
-  goToRegister() {
-    this.router.navigate(['/register']);
-  }
+  // Navegación
+  goToLogin() { this.router.navigate(['/login']); }
+  goToRegister() { this.router.navigate(['/register']); }
 
   logout() {
     localStorage.removeItem('currentUser');
@@ -61,21 +53,28 @@ export class HomePage implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  // Cargar noticias
+  goToProfile() {
+    if (this.currentUser) this.router.navigate(['/profile']);
+    else this.router.navigate(['/login']);
+  }
+
+  // Noticias
   loadNews() {
     this.cargando = true;
     this.newsService.getTopHeadlines('us').subscribe(
       (res: any) => {
-        this.noticias = res.articles;
+        // Asegurarse que cada noticia tenga urlToImage, si no usar la default
+        this.noticias = res.articles.map((article: any) => ({
+          ...article,
+          urlToImage: article.urlToImage || this.defaultImage
+        }));
         this.cargando = false;
       },
-      () => {
-        this.cargando = false;
-      }
+      () => { this.cargando = false; }
     );
   }
 
-  // Cargar banderas
+  // Banderas
   loadFlags() {
     this.flagsService.getFlags().subscribe((res: any) => {
       this.flags = res.data;
@@ -94,5 +93,4 @@ export class HomePage implements OnInit {
     };
     return banderas[source] || '🏳️';
   }
-
 }

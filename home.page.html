@@ -1,46 +1,32 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Noticias</ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="currentUser" (click)="goToProfile()">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="!currentUser" (click)="goToLogin()">Login</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+  <ion-spinner *ngIf="cargando" name="crescent"></ion-spinner>
 
-  <ion-refresher slot="fixed" (ionRefresh)="ngOnInit(); $event.target.complete()">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+  <div *ngIf="!cargando && noticias.length === 0" class="no-news">
+    No hay noticias para mostrar
+  </div>
 
-  <!-- Noticias solo si hay usuario logueado -->
-  <ion-list *ngIf="!cargando && currentUser">
-    <ion-item *ngFor="let n of noticias">
+  <ion-list *ngIf="noticias.length > 0">
+    <ion-item *ngFor="let noticia of noticias">
       <ion-thumbnail slot="start">
-        <img [src]="n.urlToImage || 'assets/no-image.png'" />
+        <img [src]="noticia.urlToImage || 'assets/default-news.jpg'" alt="Imagen de noticia" />
       </ion-thumbnail>
       <ion-label>
-        <h2>{{ n.title }}</h2>
-        <p>
-          <span>{{ obtenerBandera(n.source.name) }}</span>
-          {{ n.source.name }}
-        </p>
+        <h2>{{ noticia.title }} {{ obtenerBandera(noticia.source.name) }}</h2>
+        <p>{{ noticia.description }}</p>
+        <small>{{ noticia.source.name }}</small>
       </ion-label>
     </ion-item>
   </ion-list>
-
-  <!-- Spinner mientras cargan las noticias -->
-  <ion-spinner *ngIf="cargando" class="ion-padding"></ion-spinner>
-
 </ion-content>
-
-<!-- Botones de Login y Registro si NO hay usuario logueado -->
-<ion-footer *ngIf="!currentUser">
-  <ion-toolbar>
-    <ion-buttons slot="primary">
-      <ion-button expand="block" color="primary" (click)="goToLogin()">
-        Iniciar sesión
-      </ion-button>
-      <ion-button expand="block" color="secondary" (click)="goToRegister()">
-        Registrarse
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>
