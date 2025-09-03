@@ -1,11 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IonicModule } from '@ionic/angular'; // si quieres usar ion-button
-import { CommonModule } from '@angular/common'; // para ngIf, ngFor, etc.
+import { IonicModule } from '@ionic/angular'; 
+import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-button',
-  standalone: true, // 👈 ahora es standalone
-  imports: [IonicModule, CommonModule], // 👈 importa módulos necesarios
+  standalone: true,
+  imports: [IonicModule, CommonModule], 
   templateUrl: './button-component.component.html',
   styleUrls: ['./button-component.component.scss']
 })

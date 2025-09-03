@@ -1,21 +1,22 @@
 import { Component, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
-import { IonicModule, IonSelect, IonSelectOption } from '@ionic/angular';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';  
 
 @Component({
-  selector: 'app-select',
-  standalone: true, 
-  imports: [IonicModule, FormsModule], // 
-  templateUrl: './select-component.component.html',
-  styleUrls: ['./select-component.component.scss'],
+  selector: 'app-input',
+  standalone: true,  
+  imports: [IonicModule, FormsModule], 
+  templateUrl: './input-component.component.html',
+  styleUrls: ['./input-component.scss'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SelectComponent),
+    useExisting: forwardRef(() => InputComponent),
     multi: true
   }]
 })
-export class SelectComponent implements ControlValueAccessor {
-  @Input() options: Array<{ value: any, label: string }> = []; 
+export class InputComponent implements ControlValueAccessor {
+  @Input() type: string = 'text';
   @Input() placeholder: string = '';
 
   value: any;

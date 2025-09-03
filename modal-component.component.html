@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ news?.title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <p>{{ news?.description }}</p>
+  <ion-button (click)="openBrowser(news?.url)">Leer más</ion-button>
+</ion-content>
